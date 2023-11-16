@@ -1,0 +1,94 @@
+.squishy-toggle {
+  --height: 7rem;
+  --thumb-height: calc(var(--height) * 0.8 );
+  --width: calc( var(--height) * 1.8 );
+  --padding: calc( var(--height) * 0.1 );
+  --bg: #9fa19f;
+  --checked-bg: #5400f3;
+  --bs: inset 0 calc( var(--height) * 0.05 ) calc( var(--height) * 0.05 ) rgba(255, 255, 255, 0.25), inset 0 calc( var(--height) * -0.05 ) calc( var(--height) * 0.05 ) rgba(0,0,0, 0.15), 0 calc( var(--height) * 0.1 ) calc( var(--height) * 0.2 ) rgba(0,0,0, 0.1);
+  --default-bs: var(--bs), calc(var(--height) * -3) 0 0 calc(var(--height) * 0.75) var(--checked-bg);
+  --checked-bs: var(--bs), calc(var(--height) * -0.5) 0 0 calc(var(--height) * 0.75) var(--checked-bg);
+  --active-bs: var(--bs), calc(var(--height) * 0.25) 0 0 calc(var(--height) * 0.75) var(--checked-bg);
+  --easing: cubic-bezier(0.5, 0.5, 0.3, 1.2);
+  --duration: 0.3s;
+  position: relative;
+  display: inline-flex;
+  height: var(--height);
+  width: var(--width);
+  border-radius: var(--height);
+  background: var(--bg);
+  box-shadow: inset 0 calc( var(--height) * 0.04 ) calc( var(--height) * 0.08 ) rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  cursor: pointer;
+  overflow: hidden;
+}
+.squishy-toggle:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: calc(var(--width) - var(--padding) - var(--thumb-height));
+  transform: translatey(-50%);
+  height: var(--thumb-height);
+  width: var(--thumb-height);
+  background: linear-gradient(#FFFFFF, #D7D7D7);
+  border-radius: var(--height);
+  box-shadow: var(--default-bs);
+  transition: 0.3s var(--easing) box-shadow;
+}
+:active .squishy-toggle:before {
+  background: linear-gradient(#D7D7D7, #FFFFFF);
+}
+.squishy-toggle:has(input:not(:checked)):active:before {
+  animation: toggle var(--duration) var(--easing) forwards;
+}
+.squishy-toggle:has(input:checked):active:before {
+  animation: toggle-reverse var(--duration) var(--easing) forwards;
+  box-shadow: var(--active-bs);
+}
+.squishy-toggle:has(input:checked):before {
+  box-shadow: var(--checked-bs);
+  right: var(--padding);
+}
+.squishy-toggle input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes toggle {
+  0% {
+    right: calc(var(--width) - var(--padding) - var(--thumb-height));
+  }
+  50% {
+    height: calc(var(--thumb-height) * 0.8);
+    width: calc(var(--thumb-height) * 1.3);
+  }
+  90% {
+    width: calc(var(--thumb-height) * 0.9);
+  }
+  100% {
+    right: var(--padding);
+  }
+}
+@keyframes toggle-reverse {
+  100% {
+    right: calc(var(--width) - var(--padding) - var(--thumb-height));
+  }
+  50% {
+    height: calc(var(--thumb-height) * 0.8);
+    width: calc(var(--thumb-height) * 1.3);
+  }
+  90% {
+    width: calc(var(--thumb-height) * 0.9);
+  }
+  0% {
+    right: var(--padding);
+  }
+}
+body {
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #121212;
+}
